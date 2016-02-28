@@ -281,8 +281,10 @@ module Shoryuken
         credentials = Aws::Credentials.new(
           aws_options.delete(:access_key_id),
           aws_options.delete(:secret_access_key))
-  
-        Aws.config = aws_options.merge(credentials: credentials)
+
+        aws_options = aws_options.merge(credentials: credentials) if credentials.set?
+        
+        Aws.config.update(aws_options)
       end
 
       def require_workers
